@@ -1,12 +1,12 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import cgi
 
-## import CRUD Operations from Lesson 1 ##
+# import CRUD Operations from Lesson 1
 from database_setup import Base, Restaurant, MenuItem
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-##Create session and connect to DB ##
+# Create session and connect to DB
 engine = create_engine('sqlite:///restaurantmenu.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
@@ -14,6 +14,7 @@ session = DBSession()
 
 
 class webServerHandler(BaseHTTPRequestHandler):
+
     def do_GET(self):
         try:
             # Objective 3 Step 2 - Create /restarants/new page
@@ -63,8 +64,8 @@ class webServerHandler(BaseHTTPRequestHandler):
                 for restaurant in restaurants:
                     output += restaurant.name
                     output += "</br>"
-                    ##Objective 2 -- Add Edit and Delete Links
-                    ##Objective 4 -- Replace Edit href
+                    # Objective 2 -- Add Edit and Delete Links
+                    # Objective 4 -- Replace Edit href
                     output += "<a href ='/restaurants/%s/edit' >Edit </a> " % restaurant.id
                     output += "</br>"
                     output += "<a href =' #'> Delete </a>"
@@ -82,7 +83,7 @@ class webServerHandler(BaseHTTPRequestHandler):
             if self.path.endswith("/edit"):
                 ctype, pdict = cgi.parse_header(
                     self.headers.getheader('content-type'))
-                if ctype == 'mulitpart/form-data':
+                if ctype == 'multipart/form-data':
                     fields = cgi.parse_multipart(self.rfile, pdict)
                     messagecontent = fields.get('newRestaurantName')
                     restaurantIDPath = self.path.split("/")[2]
@@ -101,7 +102,7 @@ class webServerHandler(BaseHTTPRequestHandler):
             if self.path.endswith("/restaurants/new"):
                 ctype, pdict = cgi.parse_header(
                     self.headers.getheader('content-type'))
-                if ctype == 'mulitpart/form-data':
+                if ctype == 'multipart/form-data':
                     fields = cgi.parse_multipart(self.rfile, pdict)
                     messagecontent = fields.get('newRestaurantName')
 
